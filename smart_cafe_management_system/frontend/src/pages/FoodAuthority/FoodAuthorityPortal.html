@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Authority Portal - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Specific styles for Food Authority Portal */
+      .fa-dashboard-layout {
+        display: grid;
+        grid-template-columns: 1fr 4fr; /* Sidebar and main content */
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .fa-sidebar {
+        background-color: #34495e; /* Slightly darker blue/grey */
+        color: #ecf0f1;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+      }
+
+      .fa-sidebar h3 {
+        color: #fff;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+
+      .fa-sidebar nav ul {
+        list-style: none;
+      }
+
+      .fa-sidebar nav ul li {
+        margin-bottom: 10px;
+      }
+
+      .fa-sidebar nav ul li a {
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: #ecf0f1;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-size: 1.05rem;
+      }
+
+      .fa-sidebar nav ul li a:hover,
+      .fa-sidebar nav ul li a.active {
+        background-color: #2c3e50; /* Darker on hover */
+        color: #fff;
+      }
+
+      .fa-sidebar nav ul li a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .fa-main-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .cafe-monitor-table th:nth-child(2),
+      .cafe-monitor-table td:nth-child(2) {
+        min-width: 180px; /* Cafe name */
+      }
+      .cafe-monitor-table th:nth-child(3),
+      .cafe-monitor-table td:nth-child(3) {
+        min-width: 120px; /* Status */
+      }
+      .cafe-monitor-table .status-active {
+        color: #2ecc71;
+        font-weight: bold;
+      }
+      .cafe-monitor-table .status-pending {
+        color: #f39c12;
+        font-weight: bold;
+      }
+      .cafe-monitor-table .price-ok {
+        color: #27ae60; /* Green */
+      }
+      .cafe-monitor-table .price-high {
+        color: #e74c3c; /* Red */
+        font-weight: bold;
+      }
+
+      .notification-form .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .notification-form select {
+        width: 100%;
+      }
+
+      .recent-notifications-fa .notification-item {
+        background-color: #fcfcfc;
+        border: 1px solid #eee;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .recent-notifications-fa .notification-item i {
+        color: #3498db;
+        margin-right: 15px;
+        font-size: 1.3rem;
+      }
+      .recent-notifications-fa .notification-item p {
+        margin: 0;
+        flex-grow: 1;
+        color: #555;
+      }
+      .recent-notifications-fa .notification-item small {
+        color: #999;
+        font-size: 0.8rem;
+        white-space: nowrap; /* Prevent date from wrapping */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - Food Authority Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="FoodAuthorityPortal.html" class="active">Dashboard</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container fa-dashboard-layout">
+      <aside class="fa-sidebar">
+        <h3>Food Authority Panel</h3>
+        <nav>
+          <ul>
+            <li>
+              <a href="FoodAuthorityPortal.html" class="active"
+                ><i class="fas fa-chart-pie"></i> Overview</a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="alert('Monitor Cafe Rates - Scroll down to see cafe rates!'); return false;"
+                ><i class="fas fa-search-dollar"></i> Monitor Cafe Rates</a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="alert('Send Notifications - Scroll down to send notification!'); return false;"><i class="fas fa-bell"></i> Send Notifications</a>
+            </li>
+            <li>
+              <a href="Notifications.html"
+                ><i class="fas fa-history"></i> Notification History</a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="alert('Settings - Coming Soon!'); return false;"><i class="fas fa-cogs"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="fa-main-content">
+        <h2><i class="fas fa-shield-alt"></i> Food Authority Dashboard</h2>
+        <p>
+          Welcome to the Food Authority portal. Monitor cafe compliance and
+          manage regulations.
+        </p>
+
+        <div class="card">
+          <h2><i class="fas fa-list"></i> Registered Cafes Overview</h2>
+          <table class="cafe-monitor-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cafe Name</th>
+                <th>Status</th>
+                <th>Last Price Check</th>
+                <th>Price Compliance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Cafe De Light</td>
+                <td class="status-active">Active</td>
+                <td>2023-11-15</td>
+                <td class="price-high">High (Burger)</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View Details
+                  </button>
+                  <button
+                    class="btn-secondary"
+                    style="
+                      background-color: #3498db;
+                      padding: 5px 10px;
+                      font-size: 0.85rem;
+                    "
+                  >
+                    Notify
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>The Daily Grind</td>
+                <td class="status-active">Active</td>
+                <td>2023-11-14</td>
+                <td class="price-ok">Compliant</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View Details
+                  </button>
+                  <button
+                    class="btn-secondary"
+                    style="
+                      background-color: #3498db;
+                      padding: 5px 10px;
+                      font-size: 0.85rem;
+                    "
+                  >
+                    Notify
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Savour Foods</td>
+                <td class="status-pending">Pending Review</td>
+                <td>2023-11-10</td>
+                <td class="price-ok">Compliant</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View Details
+                  </button>
+                  <button
+                    class="btn-secondary"
+                    style="
+                      background-color: #3498db;
+                      padding: 5px 10px;
+                      font-size: 0.85rem;
+                    "
+                  >
+                    Notify
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>
+            <i class="fas fa-paper-plane"></i> Send New Notification to Cafe
+            Admin
+          </h2>
+          <div class="notification-form">
+            <div class="form-group">
+              <label for="selectCafe">Select Cafe:</label>
+              <select id="selectCafe">
+                <option value="">-- Select Cafe --</option>
+                <option value="cafe1">Cafe De Light</option>
+                <option value="cafe2">The Daily Grind</option>
+                <option value="cafe3">Savour Foods</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="notificationSubject">Subject:</label>
+              <input
+                type="text"
+                id="notificationSubject"
+                placeholder="e.g., Price Hike Alert, Hygiene Inspection Reminder"
+              />
+            </div>
+            <div class="form-group">
+              <label for="notificationMessage">Message:</label>
+              <textarea
+                id="notificationMessage"
+                placeholder="Type your detailed message here..."
+              ></textarea>
+            </div>
+            <button class="btn-primary">
+              <i class="fas fa-paper-plane"></i> Send Notification
+            </button>
+          </div>
+        </div>
+
+        <div class="card recent-notifications-fa">
+          <h2><i class="fas fa-history"></i> Recent Sent Notifications</h2>
+          <div class="notification-item">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              <strong>To: Cafe De Light</strong> - Price compliance warning for
+              Zinger Burger. Please review prices by EOD.
+            </p>
+            <small>2023-11-15 11:00 AM</small>
+          </div>
+          <div class="notification-item">
+            <i class="fas fa-check-circle"></i>
+            <p>
+              <strong>To: The Daily Grind</strong> - Upcoming hygiene inspection
+              scheduled for 2023-11-20.
+            </p>
+            <small>2023-11-14 09:15 AM</small>
+          </div>
+          <div class="notification-item">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>
+              <strong>To: Savour Foods</strong> - Reminder to update menu with
+              current prices.
+            </p>
+            <small>2023-11-10 03:45 PM</small>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2023 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Example JS for "Send Notification" button (client-side for mockup)
+      const sendNotificationBtn = document.querySelector(
+        ".notification-form .btn-primary"
+      );
+      if (sendNotificationBtn) {
+        sendNotificationBtn.addEventListener("click", function () {
+          const selectedCafe = document.getElementById("selectCafe").value;
+          const subject = document.getElementById("notificationSubject").value;
+          const message = document.getElementById("notificationMessage").value;
+
+          if (selectedCafe && subject && message) {
+            alert(
+              `Notification sent to ${selectedCafe}!\nSubject: ${subject}\nMessage: ${message}`
+            );
+            // In a real application, you'd send this data to the backend.
+            // You might also clear the form fields here.
+            document.getElementById("selectCafe").value = "";
+            document.getElementById("notificationSubject").value = "";
+            document.getElementById("notificationMessage").value = "";
+          } else {
+            alert("Please fill in all fields to send a notification.");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Smart Cafe</title>
+    <!-- Assuming your main.css exists and is correctly linked -->
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px 0;
+        text-align: center;
+      }
+
+      .container-signup {
+        max-width: 400px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex-grow: 1;
+        position: relative; /* Not strictly needed for fixed close button, but good practice */
+      }
+
+      /* Consistent Close Button Styling for the viewport (same as Login page) */
+      .close-btn {
+        position: fixed; /* Stays fixed relative to the viewport */
+        top: 25px; /* Distance from the top of the browser window */
+        right: 25px; /* Distance from the right of the browser window */
+        color: #fff; /* White 'X' for high contrast */
+        background-color: #e74c3c; /* Red background for visibility */
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        line-height: 1;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      .close-btn:hover {
+        background-color: #c0392b;
+        transform: scale(1.05);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+        margin-top: 0;
+      }
+
+      input {
+        width: calc(100% - 20px); /* Account for padding */
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box; /* Include padding in width */
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+      }
+
+      button:hover {
+        background-color: #34495e;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .login-link a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #2c3e50;
+        color: white;
+        width: 100%;
+        font-size: 14px;
+        margin-top: auto; /* Pushes the footer to the bottom */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- The close button is now fixed to the viewport -->
+    <a href="../../index.html" class="close-btn" title="Close">
+      <i class="fas fa-times"></i>
+    </a>
+
+    <header>
+      <h1>Smart Cafe - Sign Up</h1>
+    </header>
+
+    <div class="container-signup">
+      <h2>Create Account</h2>
+      <form id="signupForm" onsubmit="handleSignupSubmit(event)">
+        <input type="text" id="signupName" name="name" placeholder="Full Name" required />
+        <input type="email" id="signupEmail" name="email" placeholder="Email" required />
+        <input type="text" id="signupStudentId" name="studentId" placeholder="Student ID (e.g., FA22-BSE-014)" required />
+        <input
+          type="password"
+          id="signupPassword"
+          name="password"
+          placeholder="Password (min 8 chars with uppercase, lowercase, number, special char)"
+          required
+        />
+        <input
+          type="password"
+          id="signupConfirmPassword"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          required
+        />
+        <input type="tel" id="signupPhone" name="phone" placeholder="Phone Number (e.g., 923001234567)" required />
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="Login.html">Login here</a>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 COMSATS University Islamabad, Vehari Campus. All rights
+      reserved.
+    </footer>
+
+    <script src="../../../public/js/validation.js"></script>
+    <script src="../../../public/js/auth.js"></script>
+    <script>
+      // Setup real-time validation
+      document.addEventListener('DOMContentLoaded', function() {
+        setupRealTimeValidation('signupName', (value, fieldId) => validateName(value, fieldId, true));
+        setupRealTimeValidation('signupEmail', (value, fieldId) => validateEmail(value, fieldId, true));
+        setupRealTimeValidation('signupStudentId', (value, fieldId) => validateStudentId(value, fieldId, true));
+        setupRealTimeValidation('signupPhone', (value, fieldId) => validatePhone(value, fieldId, true));
+        
+        const passwordField = document.getElementById('signupPassword');
+        const confirmPasswordField = document.getElementById('signupConfirmPassword');
+        
+        if (passwordField) {
+          passwordField.addEventListener('blur', () => {
+            validatePassword(passwordField.value, 'signupPassword', true);
+          });
+        }
+        
+        if (confirmPasswordField) {
+          confirmPasswordField.addEventListener('blur', () => {
+            const password = passwordField.value;
+            validatePasswordMatch(password, confirmPasswordField.value, 'signupConfirmPassword');
+          });
+        }
+      });
+
+      // Handle signup form submission
+      async function handleSignupSubmit(event) {
+        event.preventDefault();
+        
+        const formData = {
+          name: document.getElementById('signupName').value.trim(),
+          email: document.getElementById('signupEmail').value.trim(),
+          studentId: document.getElementById('signupStudentId').value.trim(),
+          password: document.getElementById('signupPassword').value,
+          confirmPassword: document.getElementById('signupConfirmPassword').value,
+          phone: document.getElementById('signupPhone').value.trim()
+        };
+        
+        // Validate form
+        if (!validateSignupForm(formData)) {
+          return;
+        }
+        
+        // Show loading state
+        const submitButton = event.target.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Creating account...';
+        submitButton.disabled = true;
+        
+        try {
+          const result = await handleSignup(formData);
+          
+          if (result.success) {
+            alert(result.message || 'Account created successfully! Please log in.');
+            window.location.href = 'Login.html';
+          } else {
+            alert(result.message || 'Signup failed. Please try again.');
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+          }
+        } catch (error) {
+          console.error('Signup error:', error);
+          alert('An error occurred during signup. Please try again.');
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

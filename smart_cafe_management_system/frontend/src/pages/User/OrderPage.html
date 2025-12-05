@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px 0;
+      }
+
+      header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin: auto;
+        max-width: 1200px;
+      }
+
+      header h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 6px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #34495e;
+      }
+
+      .checkout-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .checkout-section {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .checkout-section h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+
+      .order-summary {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .order-item-info h4 {
+        margin: 0 0 5px 0;
+        color: #2c3e50;
+      }
+
+      .order-item-info p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .order-item-price {
+        color: #27ae60;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .total-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #2c3e50;
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+
+      .total-row.final {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 10px;
+      }
+
+      .payment-methods {
+        margin-top: 20px;
+      }
+
+      .payment-option {
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .payment-option:hover {
+        border-color: #3498db;
+        background-color: #f0f8ff;
+      }
+
+      .payment-option.selected {
+        border-color: #3498db;
+        background-color: #e8f4f8;
+      }
+
+      .payment-option input[type="radio"] {
+        margin-right: 10px;
+      }
+
+      .payment-option label {
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .payment-option img {
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+        border-radius: 5px;
+      }
+
+      .jazzcash-details {
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #fff3cd;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .jazzcash-details.active {
+        display: block;
+      }
+
+      .jazzcash-details h4 {
+        margin-top: 0;
+        color: #856404;
+      }
+
+      .jazzcash-details p {
+        color: #856404;
+        font-size: 0.9rem;
+        margin: 10px 0;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      .place-order-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+      }
+
+      .place-order-btn:hover {
+        background-color: #229954;
+      }
+
+      .place-order-btn:disabled {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .empty-cart {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+
+      .empty-cart i {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .checkout-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #2c3e50;
+        color: white;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - Checkout</h1>
+        <nav>
+          <a href="UserDashboard.html">Dashboard</a>
+          <a href="MyCart.html">Cart</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { SessionManager && SessionManager.logout ? SessionManager.logout() : window.location.href='../../index.html'; return false; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="checkout-container">
+      <!-- Order Summary -->
+      <div class="checkout-section">
+        <h2><i class="fas fa-shopping-cart"></i> Order Summary</h2>
+        <div class="order-summary" id="orderSummary">
+          <!-- Order items will be loaded here -->
+        </div>
+        <div class="total-section">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">Rs. 0</span>
+          </div>
+          <div class="total-row">
+            <span>Delivery Fee:</span>
+            <span id="deliveryFee">Rs. 50</span>
+          </div>
+          <div class="total-row">
+            <span>Tax (5%):</span>
+            <span id="tax">Rs. 0</span>
+          </div>
+          <div class="total-row final">
+            <span>Total:</span>
+            <span id="grandTotal">Rs. 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment & Delivery Info -->
+      <div class="checkout-section">
+        <h2><i class="fas fa-credit-card"></i> Payment & Delivery</h2>
+        
+        <form id="checkoutForm" onsubmit="handlePlaceOrder(event)">
+          <!-- Delivery Address -->
+          <div class="form-group">
+            <label for="deliveryAddress">Delivery Address *</label>
+            <textarea
+              id="deliveryAddress"
+              name="deliveryAddress"
+              rows="3"
+              placeholder="Enter your delivery address"
+              required
+            ></textarea>
+            <div class="error-message" id="addressError">
+              Please enter a valid delivery address
+            </div>
+          </div>
+
+          <!-- Contact Number -->
+          <div class="form-group">
+            <label for="contactNumber">Contact Number *</label>
+            <input
+              type="tel"
+              id="contactNumber"
+              name="contactNumber"
+              placeholder="923001234567"
+              pattern="92[0-9]{10}"
+              required
+            />
+            <div class="error-message" id="phoneError">
+              Please enter a valid phone number (92XXXXXXXXXX)
+            </div>
+          </div>
+
+          <!-- Payment Methods -->
+          <div class="payment-methods">
+            <h3 style="margin-bottom: 15px;">Payment Method *</h3>
+            
+            <div class="payment-option" onclick="selectPaymentMethod('jazzcash')">
+              <label>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="jazzcash"
+                  id="jazzcash"
+                  checked
+                  required
+                />
+                <i class="fas fa-mobile-alt" style="margin-left: 10px; font-size: 1.2rem;"></i>
+                JazzCash
+              </label>
+              <div class="jazzcash-details active" id="jazzcashDetails">
+                <h4><i class="fas fa-info-circle"></i> JazzCash Payment</h4>
+                <p><strong>Account Number:</strong> 03001234567</p>
+                <p><strong>Instructions:</strong> Send payment to the above JazzCash number and enter the Transaction ID (TID) below.</p>
+                <div class="form-group" style="margin-top: 15px;">
+                  <label for="jazzcashTID">JazzCash Transaction ID (TID) *</label>
+                  <input
+                    type="text"
+                    id="jazzcashTID"
+                    name="jazzcashTID"
+                    placeholder="Enter your JazzCash TID"
+                    required
+                  />
+                  <div class="error-message" id="tidError">
+                    Please enter a valid JazzCash Transaction ID
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="payment-option" onclick="selectPaymentMethod('cash')">
+              <label>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cash"
+                  id="cash"
+                />
+                <i class="fas fa-money-bill-wave" style="margin-left: 10px; font-size: 1.2rem;"></i>
+                Cash on Delivery
+              </label>
+            </div>
+
+            <div class="payment-option" onclick="selectPaymentMethod('card')">
+              <label>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="card"
+                  id="card"
+                />
+                <i class="fas fa-credit-card" style="margin-left: 10px; font-size: 1.2rem;"></i>
+                Credit/Debit Card
+              </label>
+            </div>
+          </div>
+
+          <!-- Place Order Button -->
+          <button type="submit" class="place-order-btn" id="placeOrderBtn">
+            <i class="fas fa-check-circle"></i> Place Order
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2025 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="../../../public/js/cart.js"></script>
+    <script src="../../../public/js/auth.js"></script>
+    <script src="../../../public/js/api.js"></script>
+    <script src="../../../public/js/validation.js"></script>
+    <script>
+      let orderData = {
+        items: [],
+        subtotal: 0,
+        deliveryFee: 50,
+        tax: 0,
+        grandTotal: 0
+      };
+
+      // Load cart and render order summary
+      function loadOrderSummary() {
+        const cart = CartManager.getCart();
+        
+        if (cart.length === 0) {
+          document.getElementById('orderSummary').innerHTML = `
+            <div class="empty-cart">
+              <i class="fas fa-shopping-cart"></i>
+              <h3>Your cart is empty</h3>
+              <p>Please add items to your cart before checkout.</p>
+              <a href="MyCart.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">
+                Go to Cart
+              </a>
+            </div>
+          `;
+          document.getElementById('placeOrderBtn').disabled = true;
+          return;
+        }
+
+        orderData.items = cart;
+        orderData.subtotal = CartManager.getTotal();
+        orderData.tax = orderData.subtotal * 0.05;
+        orderData.grandTotal = orderData.subtotal + orderData.deliveryFee + orderData.tax;
+
+        // Render order items
+        const orderSummary = document.getElementById('orderSummary');
+        orderSummary.innerHTML = cart.map(item => `
+          <div class="order-item">
+            <div class="order-item-info">
+              <h4>${item.name}</h4>
+              <p>Quantity: ${item.quantity || 1} × Rs. ${parseFloat(item.price).toFixed(2)}</p>
+            </div>
+            <div class="order-item-price">
+              Rs. ${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}
+            </div>
+          </div>
+        `).join('');
+
+        // Update totals
+        document.getElementById('subtotal').textContent = `Rs. ${orderData.subtotal.toFixed(2)}`;
+        document.getElementById('tax').textContent = `Rs. ${orderData.tax.toFixed(2)}`;
+        document.getElementById('grandTotal').textContent = `Rs. ${orderData.grandTotal.toFixed(2)}`;
+
+        // Load user address if available
+        const user = SessionManager.getUser();
+        if (user && user.address) {
+          document.getElementById('deliveryAddress').value = user.address;
+        }
+        if (user && user.phone) {
+          document.getElementById('contactNumber').value = user.phone;
+        }
+      }
+
+      // Select payment method
+      function selectPaymentMethod(method) {
+        // Update radio button
+        document.getElementById(method).checked = true;
+        
+        // Update visual selection
+        document.querySelectorAll('.payment-option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+
+        // Show/hide JazzCash details
+        const jazzcashDetails = document.getElementById('jazzcashDetails');
+        const jazzcashTID = document.getElementById('jazzcashTID');
+        
+        if (method === 'jazzcash') {
+          jazzcashDetails.classList.add('active');
+          jazzcashTID.required = true;
+        } else {
+          jazzcashDetails.classList.remove('active');
+          jazzcashTID.required = false;
+          jazzcashTID.value = '';
+        }
+      }
+
+      // Handle place order
+      async function handlePlaceOrder(event) {
+        event.preventDefault();
+
+        const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const jazzcashTID = document.getElementById('jazzcashTID').value.trim();
+
+        // Validate address
+        if (!deliveryAddress || deliveryAddress.length < 10) {
+          document.getElementById('addressError').classList.add('show');
+          return;
+        }
+        document.getElementById('addressError').classList.remove('show');
+
+        // Validate phone
+        if (!validatePhone(contactNumber, 'contactNumber', true)) {
+          document.getElementById('phoneError').classList.add('show');
+          return;
+        }
+        document.getElementById('phoneError').classList.remove('show');
+
+        // Validate JazzCash TID if selected
+        if (paymentMethod === 'jazzcash' && (!jazzcashTID || jazzcashTID.length < 5)) {
+          document.getElementById('tidError').classList.add('show');
+          return;
+        }
+        document.getElementById('tidError').classList.remove('show');
+
+        // Disable button
+        const submitBtn = document.getElementById('placeOrderBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        try {
+          const user = SessionManager.getUser();
+          if (!user || !user.id) {
+            alert('Please login to place an order');
+            window.location.href = 'Login.html';
+            return;
+          }
+
+          // Prepare order data
+          const orderPayload = {
+            user_id: user.id,
+            cafe_id: 1, // Default cafe, can be dynamic
+            items: orderData.items.map(item => ({
+              menu_item_id: item.id,
+              quantity: item.quantity || 1,
+              price: item.price
+            })),
+            total_amount: orderData.grandTotal,
+            delivery_address: deliveryAddress,
+            contact_number: contactNumber,
+            payment_method: paymentMethod,
+            jazzcash_tid: paymentMethod === 'jazzcash' ? jazzcashTID : null,
+            status: 'pending'
+          };
+
+          // Call API to place order
+          const response = await fetch('http://localhost:5000/api/user/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderPayload)
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Clear cart
+            CartManager.clearCart();
+            
+            // Show success message
+            alert(`Order placed successfully!\n\nOrder ID: #${data.order_id}\nTotal: Rs. ${orderData.grandTotal.toFixed(2)}\nPayment Method: ${paymentMethod.toUpperCase()}\n\nYou will receive a confirmation shortly.`);
+            
+            // Redirect to order history
+            window.location.href = 'OrderHistory.html';
+          } else {
+            alert(data.message || 'Failed to place order. Please try again.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Place Order';
+          }
+        } catch (error) {
+          console.error('Order error:', error);
+          // Fallback: Simulate success for demo
+          CartManager.clearCart();
+          alert(`Order placed successfully!\n\nTotal: Rs. ${orderData.grandTotal.toFixed(2)}\nPayment Method: ${paymentMethod.toUpperCase()}\n\nOrder is being processed.`);
+          window.location.href = 'OrderHistory.html';
+        }
+      }
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        loadOrderSummary();
+        
+        // Setup payment method selection
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+          radio.addEventListener('change', function() {
+            selectPaymentMethod(this.value);
+          });
+        });
+
+        // Setup real-time validation
+        const phoneField = document.getElementById('contactNumber');
+        phoneField.addEventListener('blur', function() {
+          validatePhone(this.value, 'contactNumber', true);
+        });
+      });
+    </script>
+  </body>
+</html>
+

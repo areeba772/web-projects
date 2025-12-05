@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cart - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Navbar */
+      header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px 0;
+      }
+
+      header .container {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      header h1 {
+        font-size: 22px;
+        margin: 0;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #34495e;
+      }
+
+      nav a.active {
+        background-color: #34495e;
+      }
+
+      nav a.btn-secondary {
+        background-color: #e74c3c;
+        font-weight: bold;
+      }
+
+      nav a.btn-secondary:hover {
+        background-color: #c0392b;
+      }
+
+      /* Main Cart Section */
+      main {
+        max-width: 1000px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 25px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th,
+      td {
+        text-align: center;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #2c3e50;
+        color: white;
+      }
+
+      td {
+        color: #333;
+      }
+
+      .remove-btn {
+        background-color: #e74c3c;
+        border: none;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .remove-btn:hover {
+        background-color: #c0392b;
+      }
+
+      .total {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #2c3e50;
+        font-size: 16px;
+      }
+
+      .checkout-btn {
+        display: block;
+        width: 100%;
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+
+      .checkout-btn:hover {
+        background-color: #34495e;
+      }
+
+      /* Back button */
+      .back-btn {
+        display: inline-block;
+        background-color: #2c3e50;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+
+      .back-btn:hover {
+        background-color: #34495e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ✅ Navbar -->
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - User Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="UserDashboard.html">Dashboard</a>
+          <a href="OrderHistory.html">Order History</a>
+          <a href="BrowseMenu.html">Browse Menu</a>
+          <a href="MyCart.html" class="active">My Cart</a>
+          <a href="ProfileSettings.html">Profile Settings</a>
+          <a href="HelpSupport.html">Help & Support</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { SessionManager && SessionManager.logout ? SessionManager.logout() : window.location.href='../../index.html'; return false; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ✅ Main Cart Section -->
+    <main>
+      <h2>My Cart</h2>
+
+      <table id="cartTable">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Price (PKR)</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chicken Sandwich</td>
+            <td>2</td>
+            <td>250</td>
+            <td>500</td>
+            <td>
+              <button class="remove-btn" onclick="removeItem(this)">
+                Remove
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>Cold Coffee</td>
+            <td>1</td>
+            <td>180</td>
+            <td>180</td>
+            <td>
+              <button class="remove-btn" onclick="removeItem(this)">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total" id="totalAmount">Total: PKR 680</div>
+
+      <a href="OrderPage.html" class="checkout-btn">Proceed to Checkout</a>
+
+      <a href="UserDashboard.html" class="back-btn">← Back to Dashboard</a>
+    </main>
+
+    <!-- ✅ Script -->
+    <script src="../../../public/js/cart.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Render cart table
+        CartManager.renderCartTable('cartTable');
+        
+        // Update checkout button
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+          checkoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const cart = CartManager.getCart();
+            if (cart.length === 0) {
+              alert('Your cart is empty!');
+              return;
+            }
+            window.location.href = 'OrderPage.html';
+          });
+        }
+      });
+      
+      // Make CartManager available globally for onclick handlers
+      window.CartManager = CartManager;
+    </script>
+  </body>
+</html>

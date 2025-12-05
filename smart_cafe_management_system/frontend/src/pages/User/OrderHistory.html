@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order History - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Specific styles for Order History page, similar to User Dashboard */
+      .page-layout {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .sidebar {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+      }
+
+      .sidebar nav ul {
+        list-style: none;
+      }
+
+      .sidebar nav ul li {
+        margin-bottom: 10px;
+      }
+
+      .sidebar nav ul li a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #555;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .sidebar nav ul li a:hover,
+      .sidebar nav ul li a.active {
+        background-color: #2980b9;
+        color: #fff;
+      }
+
+      .main-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+      }
+
+      .order-item {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .order-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(135deg, #2980b9, #3498db);
+        transition: width 0.3s ease;
+      }
+
+      .order-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
+        border-color: #2980b9;
+      }
+
+      .order-item:hover::before {
+        width: 6px;
+      }
+
+      .order-item h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.6rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .order-item h3 i {
+        color: #2980b9;
+        font-size: 1.4rem;
+      }
+
+      .order-item p {
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .order-item strong {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      .order-item .status {
+        font-weight: 700;
+        padding: 8px 15px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-item .status-completed {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: #ffffff;
+      }
+
+      .order-item .status-pending {
+        background: linear-gradient(135deg, #ffc107, #ff9800);
+        color: #ffffff;
+      }
+
+      .order-item .status-cancelled {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: #ffffff;
+      }
+      .order-item .order-details {
+        margin-top: 15px;
+        border-top: 1px dashed #eee;
+        padding-top: 15px;
+      }
+      .order-item .order-details ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .order-item .order-details ul li {
+        margin-bottom: 5px;
+        font-size: 0.95rem;
+      }
+      .order-item .order-details ul li span {
+        font-weight: bold;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - User Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="UserDashboard.html">Dashboard</a>
+          <a href="BrowseMenu.html">Browse Menu</a>
+          <a href="OrderHistory.html" class="active">Order History</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container page-layout">
+      <aside class="sidebar">
+        <nav>
+          <ul>
+            <li>
+              <a href="UserDashboard.html"
+                ><i class="fas fa-home"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="BrowseMenu.html"
+                ><i class="fas fa-utensils"></i> Browse Cafes & Menu</a
+              >
+            </li>
+            <li>
+              <a href="MyCart.html"><i class="fas fa-shopping-cart"></i> My Cart</a>
+            </li>
+            <li>
+              <a href="OrderHistory.html" class="active"
+                ><i class="fas fa-history"></i> Order History</a
+              >
+            </li>
+            <li>
+              <a href="ProfileSettings.html"
+                ><i class="fas fa-user-circle"></i> Profile Settings</a
+              >
+            </li>
+            <li>
+              <a href="HelpSupport.html"
+                ><i class="fas fa-question-circle"></i> Help & Support</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <h2><i class="fas fa-history"></i> Your Order History</h2>
+        <p>Here you can view all your past orders.</p>
+
+        <div class="card" style="margin-top: 30px">
+          <!-- Order Item 1 -->
+          <div class="order-item">
+            <h3><i class="fas fa-receipt"></i> Order #00101</h3>
+            <p><strong>Cafe:</strong> Cafe De Light</p>
+            <p><strong>Order Date:</strong> 2023-11-15 10:45 AM</p>
+            <p><strong>Total Amount:</strong> Rs. 590</p>
+            <span class="status status-pending">Pending</span>
+            <div class="order-details">
+              <h4>Items:</h4>
+              <ul>
+                <li><span>1x</span> Club Sandwich</li>
+                <li><span>1x</span> Large Fries</li>
+                <li><span>2x</span> Soft Drink</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Order Item 2 -->
+          <div class="order-item">
+            <h3><i class="fas fa-receipt"></i> Order #00100</h3>
+            <p><strong>Cafe:</strong> The Daily Grind</p>
+            <p><strong>Order Date:</strong> 2023-11-14 02:10 PM</p>
+            <p><strong>Total Amount:</strong> Rs. 500</p>
+            <span class="status status-completed">Completed</span>
+            <div class="order-details">
+              <h4>Items:</h4>
+              <ul>
+                <li><span>1x</span> Zinger Burger</li>
+                <li><span>1x</span> Large Fries</li>
+                <li><span>1x</span> Cappuccino</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Order Item 3 -->
+          <div class="order-item">
+            <h3><i class="fas fa-receipt"></i> Order #00099</h3>
+            <p><strong>Cafe:</strong> Savour Foods</p>
+            <p><strong>Order Date:</strong> 2023-11-13 07:00 PM</p>
+            <p><strong>Total Amount:</strong> Rs. 400</p>
+            <span class="status status-completed">Completed</span>
+            <div class="order-details">
+              <h4>Items:</h4>
+              <ul>
+                <li><span>1x</span> Chicken Biryani</li>
+                <li><span>1x</span> Cold Drink</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2023 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

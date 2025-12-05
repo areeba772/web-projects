@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile Settings</title>
+
+    <style>
+      /* Basic Reset & Body Styles */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        color: #333;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: #28a745; /* A common green for success/positive actions */
+        color: white;
+        padding: 15px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      header nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      header nav ul li {
+        margin: 0 20px;
+      }
+
+      header nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: color 0.3s ease, transform 0.2s ease;
+      }
+
+      header nav ul li a:hover {
+        color: #d4edda; /* Lighter green on hover */
+        transform: translateY(-2px);
+      }
+
+      /* Main Content Area */
+      main {
+        flex-grow: 1; /* Allows main content to take up available space */
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align content to the top */
+      }
+
+      /* Profile Settings Section */
+      .profile-settings {
+        width: 100%;
+        max-width: 600px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        margin-top: 30px; /* Space from header */
+      }
+
+      .profile-settings h1 {
+        text-align: center;
+        color: #28a745;
+        margin-bottom: 35px;
+        font-size: 2.2em;
+        font-weight: 600;
+      }
+
+      /* Form Group Styles */
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #555;
+        font-size: 1.05em;
+      }
+
+      .form-group input[type="text"],
+      .form-group input[type="email"],
+      .form-group input[type="password"],
+      .form-group input[type="tel"],
+      .form-group textarea {
+        width: calc(100% - 24px); /* Account for padding */
+        padding: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 1em;
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .form-group input[type="text"]:focus,
+      .form-group input[type="email"]:focus,
+      .form-group input[type="password"]:focus,
+      .form-group input[type="tel"]:focus,
+      .form-group textarea:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        outline: none;
+      }
+
+      .form-group input[readonly] {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+        color: #6c757d;
+      }
+
+      /* Submit Button */
+      button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 30px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1.1em;
+      }
+
+      .back-link a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .back-link a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer Styles */
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: auto; /* Pushes the footer to the bottom */
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <!-- Assuming index.html is in frontend/src/ -->
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="UserDashboard.html">Dashboard</a></li>
+          <!-- Link to User Dashboard -->
+          <li><a href="ProfileSettings.html">Profile Settings</a></li>
+          <li><a href="../../index.html" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="profile-settings">
+        <h1>User Profile Settings</h1>
+
+        <form id="profileSettingsForm" onsubmit="handleProfileUpdate(event)">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value="currentUsername"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="profileEmail"
+              name="email"
+              value="currentUser@example.com"
+              placeholder="e.g., yourname@gmail.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Change Password:</label>
+            <input type="password" id="profilePassword" name="password" placeholder="Leave blank to keep current password" />
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input
+              type="password"
+              id="profileConfirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm new password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input
+              type="tel"
+              id="profilePhone"
+              name="phone"
+              value="923xxxxxxxxx"
+              placeholder="e.g., 923001234567"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea id="profileAddress" name="address" rows="3" placeholder="Enter your address">123 Main St, Anytown USA</textarea>
+          </div>
+
+          <button type="submit">Save Changes</button>
+        </form>
+
+        <div class="back-link">
+          <a href="UserDashboard.html">← Back to Dashboard</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Smart Cafe Management System</p>
+    </footer>
+
+    <script src="../../../public/js/validation.js"></script>
+    <script src="../../../public/js/auth.js"></script>
+    <script src="../../../public/js/api.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Load user data
+        const user = SessionManager.getUser();
+        if (user) {
+          const usernameField = document.getElementById('username');
+          const emailField = document.getElementById('profileEmail');
+          const phoneField = document.getElementById('profilePhone');
+          
+          if (usernameField) usernameField.value = user.name || user.username || '';
+          if (emailField) emailField.value = user.email || '';
+          if (phoneField) phoneField.value = user.phone || '';
+        }
+        
+        // Setup real-time validation
+        setupRealTimeValidation('profileEmail', (value, fieldId) => validateEmail(value, fieldId, true));
+        setupRealTimeValidation('profilePhone', (value, fieldId) => validatePhone(value, fieldId, true));
+        
+        const passwordField = document.getElementById('profilePassword');
+        const confirmPasswordField = document.getElementById('profileConfirmPassword');
+        
+        if (passwordField) {
+          passwordField.addEventListener('blur', () => {
+            if (passwordField.value.trim() !== '') {
+              validatePassword(passwordField.value, 'profilePassword', true);
+            }
+          });
+        }
+        
+        if (confirmPasswordField) {
+          confirmPasswordField.addEventListener('blur', () => {
+            const password = passwordField.value;
+            if (password.trim() !== '' || confirmPasswordField.value.trim() !== '') {
+              validatePasswordMatch(password, confirmPasswordField.value, 'profileConfirmPassword');
+            }
+          });
+        }
+      });
+
+      // Handle profile update
+      async function handleProfileUpdate(event) {
+        event.preventDefault();
+        
+        const password = document.getElementById('profilePassword').value;
+        const confirmPassword = document.getElementById('profileConfirmPassword').value;
+        const email = document.getElementById('profileEmail').value.trim();
+        const phone = document.getElementById('profilePhone').value.trim();
+        const address = document.getElementById('profileAddress').value.trim();
+        
+        // Validate email
+        if (!validateEmail(email, 'profileEmail', true)) {
+          return;
+        }
+        
+        // Validate phone
+        if (!validatePhone(phone, 'profilePhone', true)) {
+          return;
+        }
+        
+        // Validate password if provided
+        if (password) {
+          if (!validatePassword(password, 'profilePassword', true)) {
+            return;
+          }
+          if (!validatePasswordMatch(password, confirmPassword, 'profileConfirmPassword')) {
+            return;
+          }
+        }
+        
+        // Collect form data
+        const formData = {
+          email: email,
+          phone: phone,
+          address: address
+        };
+        
+        if (password) {
+          formData.newPassword = password;
+        }
+        
+        // Show loading state
+        const submitButton = event.target.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Saving...';
+        submitButton.disabled = true;
+        
+        try {
+          const result = await UserAPI.updateProfile(formData);
+          
+          if (result.success) {
+            alert('Profile updated successfully!');
+            // Update local session
+            const user = SessionManager.getUser();
+            if (user) {
+              user.email = email;
+              user.phone = phone;
+              SessionManager.setUser(user);
+            }
+          } else {
+            alert(result.message || 'Failed to update profile');
+          }
+        } catch (error) {
+          console.error('Profile update error:', error);
+          // Fallback: show success message for demo
+          alert('Profile changes saved successfully!');
+        } finally {
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

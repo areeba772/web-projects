@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard - Smart Cafe System</title>
+    <!-- Correct path to main.css: From frontend/src/pages/User/ to frontend/src/styles/ -->
+    <!-- You need to go up two directories (..) to frontend/src/, then into styles/ -->
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Specific styles for User Dashboard */
+      /* Add these to main.css or keep here as per your project structure */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+
+      header {
+        background-color: #28a745; /* Green header */
+        color: white;
+        padding: 15px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.8em;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      header nav {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+      }
+
+      header nav a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 15px;
+        margin: 0 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      header nav a:hover,
+      header nav a.active {
+        background-color: #218838;
+      }
+
+      header nav .btn-secondary {
+        background-color: #e74c3c; /* Red for logout */
+      }
+      header nav .btn-secondary:hover {
+        background-color: #c0392b;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .dashboard-layout {
+        display: grid;
+        grid-template-columns: 1fr 3fr; /* Sidebar and main content */
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .sidebar {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+      }
+
+      .sidebar nav ul {
+        list-style: none;
+        padding: 0; /* Remove default padding */
+        margin: 0; /* Remove default margin */
+      }
+
+      .sidebar nav ul li {
+        margin-bottom: 10px;
+      }
+
+      .sidebar nav ul li a {
+        display: flex; /* Use flex for icon and text alignment */
+        align-items: center;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #555;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .sidebar nav ul li a i {
+        margin-right: 10px; /* Space between icon and text */
+        font-size: 1.1em;
+      }
+
+      .sidebar nav ul li a:hover,
+      .sidebar nav ul li a.active {
+        background-color: #2846a7; /* Changed to green to match header */
+        color: #fff;
+      }
+
+      .main-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-content h2 {
+        color: #2846a7; /* Green heading */
+        margin-bottom: 20px;
+      }
+      .main-content p {
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: #2c3e50;
+        font-size: 1.8em;
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+      .card h2 i {
+        margin-right: 10px;
+        color: #2e28a7; /* Icon color */
+      }
+
+      .cafe-list,
+      .menu-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      .cafe-card,
+      .menu-item-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: #fff;
+      }
+
+      .cafe-card:hover,
+      .menu-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .cafe-card img,
+      .menu-item-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+      }
+
+      .cafe-card-content,
+      .menu-item-card-content {
+        padding: 15px;
+      }
+
+      .cafe-card-content h3,
+      .menu-item-card-content h4 {
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .cafe-card-content p,
+      .menu-item-card-content p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .menu-item-card-content .price {
+        font-weight: bold;
+        color: #e67e22; /* Orange for price */
+        font-size: 1.1rem;
+      }
+
+      .btn-primary {
+        display: inline-block;
+        padding: 10px 18px;
+        background-color: #4428a7;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background-color: #262188;
+      }
+
+      /* Cart and Checkout */
+      .cart-summary {
+        background-color: #f9f9f9;
+        border: 1px solid #eee;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+
+      .cart-item-info span {
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .cart-total {
+        margin-top: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 15px;
+        border-top: 2px solid #ddd;
+      }
+
+      .payment-options {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      .payment-options h3 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+      }
+      .payment-options h3 i {
+        margin-right: 10px;
+        color: #3528a7;
+      }
+
+      .payment-options label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      .payment-options input[type="radio"] {
+        margin-right: 10px;
+        transform: scale(1.2); /* Make radio button slightly larger */
+      }
+
+      .jazzcash-details {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #fcfcfc;
+        margin-top: 15px;
+      }
+      .jazzcash-details p {
+        margin-bottom: 10px;
+        color: #555;
+        font-size: 0.95rem;
+      }
+      .jazzcash-details strong {
+        color: #333;
+      }
+
+      /* Recommendation System styles */
+      .recommendation-section {
+        background-color: #e8f5e9; /* Light green background */
+        padding: 25px;
+        border-radius: 8px;
+        margin-top: 30px;
+        border: 1px solid #d4edda;
+      }
+
+      .recommendation-section h3 {
+        color: #3a2e7d; /* Darker green */
+        margin-bottom: 20px;
+        font-size: 1.6rem;
+        text-align: center;
+      }
+      .recommendation-section p {
+        text-align: center;
+        color: #634caf;
+        margin-bottom: 25px;
+      }
+
+      .recommendation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .recommendation-item-card {
+        background-color: #ffffff;
+        border: 1px solid #c8e6c9;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+
+      .recommendation-item-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+      }
+
+      .recommendation-item-card-content {
+        padding: 15px;
+      }
+
+      .recommendation-item-card-content h4 {
+        margin-bottom: 8px;
+        color: #388e3c; /* Medium green */
+        font-size: 1.2rem;
+      }
+
+      .recommendation-item-card-content p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .recommendation-item-card-content .price {
+        font-weight: bold;
+        color: #e67e22;
+        font-size: 1rem;
+      }
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 40px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - User Portal</h1>
+        <nav>
+          <!-- Correct path to main index.html: From frontend/src/pages/User/ to frontend/src/ -->
+          <a href="../../index.html">Home</a>
+          <a href="UserDashboard.html" class="active">Dashboard</a>
+          <a href="OrderHistory.html">Order History</a>
+          <!-- Correct path to main index.html for logout -->
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { SessionManager && SessionManager.logout ? SessionManager.logout() : window.location.href='../../index.html'; return false; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container dashboard-layout">
+      <aside class="sidebar">
+        <nav>
+          <ul>
+            <li>
+              <a href="UserDashboard.html" class="active"
+                ><i class="fas fa-home"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="BrowseMenu.html"
+                ><i class="fas fa-utensils"></i> Browse Cafes & Menu</a
+              >
+            </li>
+            <li>
+              <a href="MyCart.html"
+                ><i class="fas fa-shopping-cart"></i> My Cart</a
+              >
+            </li>
+            <li>
+              <a href="OrderHistory.html"
+                ><i class="fas fa-history"></i> Order History</a
+              >
+            </li>
+            <li>
+              <!-- Correct path for ProfileSettings.html from UserDashboard.html (same directory) -->
+              <a href="ProfileSettings.html"
+                ><i class="fas fa-user-cog"></i> Profile Settings</a
+              >
+            </li>
+            <li>
+              <a href="HelpSupport.html"
+                ><i class="fas fa-question-circle"></i> Help & Support</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <h2>Welcome, User!</h2>
+        <p>Explore your favorite cafes and place your order.</p>
+
+        <!-- AI-Based Recommendation System Section -->
+        <div class="recommendation-section">
+          <h3>
+            <i class="fas fa-robot"></i> Personalized Recommendations for You!
+          </h3>
+          <p>
+            Based on your past orders and popular choices, we think you'll love
+            these:
+          </p>
+          <div class="recommendation-grid" id="recommendationsGrid">
+            <!-- Recommendations will be loaded here -->
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px">
+          <h2><i class="fas fa-store"></i> Available Cafes</h2>
+          <div class="cafe-list">
+            <!-- Example Cafe Card 1 -->
+            <div class="cafe-card">
+              <!-- Correct image path: ../../../public/images/cafe1.jpg -->
+              <img src="../../../public/images/cafe1.jpg" alt="Cafe De Light" />
+              <div class="cafe-card-content">
+                <h3>Cafe De Light</h3>
+                <p>Offering a variety of snacks, fast food, and beverages.</p>
+                <a href="BrowseMenu.html" class="btn-primary"
+                  >View Menu</a
+                >
+              </div>
+            </div>
+            <!-- Example Cafe Card 2 -->
+            <div class="cafe-card">
+              <!-- Correct image path: ../../../public/images/cafe2.jpg -->
+              <img
+                src="../../../public/images/cafe2.jpg"
+                alt="The Daily Grind"
+              />
+              <div class="cafe-card-content">
+                <h3>The Daily Grind</h3>
+                <p>Specializing in coffee, sandwiches, and fresh juices.</p>
+                <a href="BrowseMenu.html" class="btn-primary"
+                  >View Menu</a
+                >
+              </div>
+            </div>
+            <!-- Example Cafe Card 3 -->
+            <div class="cafe-card">
+              <!-- Correct image path: ../../../public/images/cafe3.jpg -->
+              <img src="../../../public/images/cafe3.jpg" alt="Savour Foods" />
+              <div class="cafe-card-content">
+                <h3>Savour Foods</h3>
+                <p>Authentic Pakistani dishes and delicious desserts.</p>
+                <a href="BrowseMenu.html" class="btn-primary"
+                  >View Menu</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>
+            <i class="fas fa-clipboard-list"></i> Menu for Cafe De Light
+            (Example)
+          </h2>
+          <div class="menu-list">
+            <!-- Example Menu Item 1 -->
+            <div class="menu-item-card">
+              <!-- Correct image path: ../../../public/images/sandwich.jpg -->
+              <img
+                src="../../../public/images/sandwich.jpg"
+                alt="Club Sandwich"
+              />
+              <div class="menu-item-card-content">
+                <h4>Club Sandwich</h4>
+                <p>Toasted bread with chicken, egg, and fresh veggies.</p>
+                <span class="price">Rs. 280</span>
+                <button
+                  class="add-to-cart"
+                  data-item-name="Club Sandwich"
+                  data-item-price="280"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+            <!-- Example Menu Item 2 -->
+            <div class="menu-item-card">
+              <!-- Correct image path: ../../../public/images/fries.jpg -->
+              <img src="../../../public/images/fries.jpg" alt="Large Fries" />
+              <div class="menu-item-card-content">
+                <h4>Large Fries</h4>
+                <p>Crispy golden fries, perfect side for any meal.</p>
+                <span class="price">Rs. 150</span>
+                <button
+                  class="add-to-cart"
+                  data-item-name="Large Fries"
+                  data-item-price="150"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+            <!-- Example Menu Item 3 -->
+            <div class="menu-item-card">
+              <!-- Correct image path: ../../../public/images/softdrink.jpg -->
+              <img
+                src="../../../public/images/softdrink.jpg"
+                alt="Cold Drink"
+              />
+              <div class="menu-item-card-content">
+                <h4>Soft Drink</h4>
+                <p>Your choice of refreshing carbonated drink.</p>
+                <span class="price">Rs. 80</span>
+                <button
+                  class="add-to-cart"
+                  data-item-name="Soft Drink"
+                  data-item-price="80"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+          <div class="cart-summary" id="cartSummary">
+            <!-- Cart items will be dynamically added here -->
+            <div class="cart-total" id="cartTotal">
+              <span>Total:</span>
+              <span>Rs. 0</span>
+            </div>
+          </div>
+
+          <div class="payment-options">
+            <h3><i class="fas fa-credit-card"></i> Select Payment Method</h3>
+            <div class="form-group">
+              <label>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cashOnDelivery"
+                  checked
+                />
+                Cash on Delivery
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="radio" name="paymentMethod" value="jazzCash" />
+                Jazz Cash
+              </label>
+              <div
+                id="jazzCashDetails"
+                class="jazzcash-details"
+                style="display: none"
+              >
+                <p>To pay via Jazz Cash, please follow these steps:</p>
+                <ol>
+                  <li>Open your Jazz Cash app or dial *786#.</li>
+                  <li>
+                    Select "Send Money" -> "To Bank Account" or "To Mobile
+                    Account" (if applicable for business).
+                  </li>
+                  <li>
+                    Enter the Merchant ID or Account Number:
+                    <strong>0300-1234567</strong> (Example)
+                  </li>
+                  <li>
+                    Enter the exact amount:
+                    <strong id="jazzCashAmount">Rs. 0</strong>
+                  </li>
+                  <li>Confirm the transaction.</li>
+                  <li>
+                    Enter the Transaction ID (TID) below for verification.
+                  </li>
+                </ol>
+                <div class="form-group">
+                  <label for="jazzCashTID"
+                    >Jazz Cash Transaction ID (TID):</label
+                  >
+                  <input
+                    type="text"
+                    id="jazzCashTID"
+                    placeholder="Enter TID here"
+                    disabled
+                  />
+                </div>
+                <p style="font-size: 0.85rem; color: #e74c3c">
+                  <strong>Important:</strong> Your order will only be processed
+                  after successful verification of the Jazz Cash Transaction ID.
+                </p>
+              </div>
+            </div>
+
+            <button
+              class="btn-primary"
+              style="width: 100%; margin-top: 20px"
+              id="placeOrderBtn"
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2023 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      let cart = []; // Global cart array, consider using localStorage for persistence
+
+      // Function to render cart items
+      function renderCart() {
+        const cartSummary = document.getElementById("cartSummary");
+        const cartTotalElement = document.getElementById("cartTotal");
+
+        // Clear all existing cart items (except the total row)
+        // We'll regenerate items and then update the total
+        const itemsToRemove = Array.from(cartSummary.children).filter(
+          (child) => !child.classList.contains("cart-total")
+        );
+        itemsToRemove.forEach((item) => item.remove());
+
+        let total = 0;
+        const currentItemsHtml = cart
+          .map((item, index) => {
+            total += item.quantity * item.price;
+            return `
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <span>${item.quantity}x ${item.name}</span>
+                <small>@ Rs. ${item.price}</small>
+              </div>
+              <div class="cart-item-actions">Rs. ${
+                item.quantity * item.price
+              }</div>
+            </div>
+          `;
+          })
+          .join("");
+
+        cartSummary.insertAdjacentHTML("afterbegin", currentItemsHtml); // Add items before the total
+
+        // Update total
+        if (cartTotalElement) {
+          cartTotalElement.innerHTML = `
+            <span>Total:</span>
+            <span>Rs. ${total}</span>
+          `;
+        }
+
+        // Update Jazz Cash amount
+        document.getElementById("jazzCashAmount").innerText = `Rs. ${total}`;
+      }
+
+      // Add to Cart functionality
+      document.querySelectorAll(".add-to-cart").forEach((button) => {
+        button.addEventListener("click", function () {
+          const itemName = this.dataset.itemName;
+          const itemPrice = parseInt(this.dataset.itemPrice);
+
+          const existingItem = cart.find((item) => item.name === itemName);
+
+          if (existingItem) {
+            existingItem.quantity++;
+          } else {
+            cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+          }
+
+          renderCart();
+          // alert(`${itemName} added to cart!`); // Optional: remove alert for smoother UX
+        });
+      });
+
+      // JavaScript to toggle Jazz Cash details visibility
+      const paymentMethodRadios = document.querySelectorAll(
+        'input[name="paymentMethod"]'
+      );
+      const jazzCashDetails = document.getElementById("jazzCashDetails");
+      const jazzCashTIDInput = document.getElementById("jazzCashTID");
+
+      paymentMethodRadios.forEach((radio) => {
+        radio.addEventListener("change", function () {
+          if (this.value === "jazzCash") {
+            jazzCashDetails.style.display = "block";
+            jazzCashTIDInput.disabled = false;
+          } else {
+            jazzCashDetails.style.display = "none";
+            jazzCashTIDInput.disabled = true;
+            jazzCashTIDInput.value = ""; // Clear TID when switching payment
+          }
+        });
+      });
+
+      // Place Order functionality
+      document
+        .getElementById("placeOrderBtn")
+        .addEventListener("click", function () {
+          if (cart.length === 0) {
+            alert(
+              "Your cart is empty. Please add items before placing an order."
+            );
+            return;
+          }
+
+          const selectedPaymentMethod = document.querySelector(
+            'input[name="paymentMethod"]:checked'
+          ).value;
+          let orderDetails = `Order placed with ${selectedPaymentMethod}:\n`;
+          cart.forEach((item) => {
+            orderDetails += `${item.quantity}x ${item.name} @ Rs. ${
+              item.price
+            } = Rs. ${item.quantity * item.price}\n`;
+          });
+
+          const cartTotalSpan = document
+            .getElementById("cartTotal")
+            .querySelector("span:last-child");
+          const totalAmount = cartTotalSpan
+            ? cartTotalSpan.innerText.replace("Rs. ", "")
+            : "0";
+
+          orderDetails += `Total: Rs. ${totalAmount}`;
+
+          if (selectedPaymentMethod === "jazzCash") {
+            const tid = jazzCashTIDInput.value.trim();
+            if (!tid) {
+              alert(
+                "Please enter the Jazz Cash Transaction ID (TID) to place your order."
+              );
+              return;
+            }
+            orderDetails += `\nJazz Cash TID: ${tid}`;
+          }
+
+          alert(
+            "Order Successfully Placed!\n\n" +
+              orderDetails +
+              "\n\n(This is a mockup. Actual order placement requires backend processing.)"
+          );
+          // In a real application, you would send this data to a backend.
+          // After successful order, you might clear the cart:
+          cart = [];
+          renderCart(); // Update cart display
+          jazzCashTIDInput.value = ""; // Clear TID input
+          // Reset payment method to Cash on Delivery
+          document.querySelector(
+            'input[name="paymentMethod"][value="cashOnDelivery"]'
+          ).checked = true;
+          jazzCashDetails.style.display = "none";
+          jazzCashTIDInput.disabled = true;
+        });
+
+      // Initial render of an empty cart
+      renderCart();
+      
+      // Initialize recommendations
+      initRecommendations('recommendationsGrid');
+    </script>
+    <script src="../../../public/js/auth.js"></script>
+    <script src="../../../public/js/recommendations.js"></script>
+    <script src="../../../public/js/cart.js"></script>
+    <script src="../../../public/js/navigation.js"></script>
+  </body>
+</html>

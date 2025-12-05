@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Help & Support - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+      }
+
+      /* Main Section */
+      main {
+        max-width: 900px;
+        margin: 40px auto;
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 0.6s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      h2 i {
+        color: #2980b9;
+      }
+
+      p {
+        text-align: center;
+        color: #666;
+        font-size: 1.05rem;
+        margin-bottom: 30px;
+      }
+
+      form {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      input,
+      textarea,
+      select {
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        font-family: inherit;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #2980b9;
+        box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        transform: translateY(-1px);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.6;
+      }
+
+      button {
+        background: linear-gradient(135deg, #2980b9, #3498db);
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.05rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .success-message {
+        display: none;
+        text-align: center;
+        background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-weight: 600;
+        animation: slideDown 0.3s ease;
+        border: 2px solid #28a745;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Back Button */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 25px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .back-btn:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .support-info {
+        background: linear-gradient(135deg, #e8f4f8, #d4e9f7);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border-left: 4px solid #2980b9;
+      }
+
+      .support-info h3 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .support-info p {
+        text-align: left;
+        color: #555;
+        margin: 5px 0;
+        font-size: 0.95rem;
+      }
+
+      .support-info i {
+        color: #2980b9;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ✅ Navbar -->
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - User Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="UserDashboard.html">Dashboard</a>
+          <a href="OrderHistory.html">Order History</a>
+          <a href="BrowseMenu.html">Browse Menu</a>
+          <a href="MyCart.html">My Cart</a>
+          <a href="ProfileSettings.html">Profile Settings</a>
+          <a href="HelpSupport.html" class="active">Help & Support</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { SessionManager && SessionManager.logout ? SessionManager.logout() : window.location.href='../../index.html'; return false; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ✅ Main Help & Support Section -->
+    <main>
+      <h2><i class="fas fa-life-ring"></i> Help & Support</h2>
+      <p>
+        Have a question or need assistance? Fill out the form below and our
+        support team will get back to you soon.
+      </p>
+
+      <div class="support-info">
+        <h3><i class="fas fa-info-circle"></i> Quick Contact</h3>
+        <p><i class="fas fa-envelope"></i> Email: support@comsats.edu.pk</p>
+        <p><i class="fas fa-phone"></i> Phone: +92-300-1234567</p>
+        <p><i class="fas fa-clock"></i> Response Time: Within 24 hours</p>
+      </div>
+
+      <form id="supportForm">
+        <label for="topic">Select Topic:</label>
+        <select id="topic" name="topic" required>
+          <option value="">-- Choose a Topic --</option>
+          <option value="order">Order Related Issue</option>
+          <option value="payment">Payment Problem</option>
+          <option value="account">Account/Login Issue</option>
+          <option value="feedback">Feedback/Suggestions</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="email">Your Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@comsats.edu.pk"
+          required
+        />
+
+        <label for="message">Message:</label>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Describe your issue or question..."
+          required
+        ></textarea>
+
+        <button type="submit">Submit Request</button>
+        <div class="success-message" id="successMessage">
+          ✅ Your support request has been submitted successfully!
+        </div>
+      </form>
+
+      <!-- 🔙 Back to Dashboard Button -->
+      <a href="UserDashboard.html" class="back-btn">← Back to Dashboard</a>
+    </main>
+
+    <script>
+      const form = document.getElementById("supportForm");
+      const successMsg = document.getElementById("successMessage");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        successMsg.style.display = "block";
+        form.reset();
+        setTimeout(() => (successMsg.style.display = "none"), 4000);
+      });
+    </script>
+  </body>
+</html>

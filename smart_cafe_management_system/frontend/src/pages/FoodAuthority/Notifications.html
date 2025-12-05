@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification History - Food Authority Portal</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+      }
+
+      .fa-dashboard-layout {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 25px;
+        padding: 25px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .fa-sidebar {
+        background: linear-gradient(135deg, #34495e, #2c3e50);
+        color: #ecf0f1;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+      }
+
+      .fa-sidebar h3 {
+        color: #fff;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .fa-sidebar nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .fa-sidebar nav ul li {
+        margin-bottom: 8px;
+      }
+
+      .fa-sidebar nav ul li a {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: #ecf0f1;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .fa-sidebar nav ul li a:hover,
+      .fa-sidebar nav ul li a.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        transform: translateX(5px);
+      }
+
+      .fa-sidebar nav ul li a i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .fa-main-content {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .notification-item {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .notification-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        transition: width 0.3s ease;
+      }
+
+      .notification-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
+        border-color: #3498db;
+      }
+
+      .notification-item:hover::before {
+        width: 6px;
+      }
+
+      .notification-item h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .notification-item p {
+        color: #666;
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+
+      .notification-item small {
+        color: #999;
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 768px) {
+        .fa-dashboard-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .fa-sidebar {
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - Food Authority Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="FoodAuthorityPortal.html">Dashboard</a>
+          <a href="Notifications.html" class="active">Notification History</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container fa-dashboard-layout">
+      <aside class="fa-sidebar">
+        <h3>Food Authority Panel</h3>
+        <nav>
+          <ul>
+            <li>
+              <a href="FoodAuthorityPortal.html"
+                ><i class="fas fa-chart-pie"></i> Overview</a
+              >
+            </li>
+            <li>
+              <a href="FoodAuthorityPortal.html#rates"
+                ><i class="fas fa-search-dollar"></i> Monitor Cafe Rates</a
+              >
+            </li>
+            <li>
+              <a href="FoodAuthorityPortal.html#notifications"
+                ><i class="fas fa-bell"></i> Send Notifications</a
+              >
+            </li>
+            <li>
+              <a href="Notifications.html" class="active"
+                ><i class="fas fa-history"></i> Notification History</a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="alert('Settings - Coming Soon!'); return false;"><i class="fas fa-cogs"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="fa-main-content">
+        <h2><i class="fas fa-history"></i> Notification History</h2>
+        <p>All notifications sent to cafe admins are listed below.</p>
+
+        <div class="notification-item">
+          <h4><i class="fas fa-exclamation-triangle"></i> Price Compliance Warning</h4>
+          <p><strong>To:</strong> Cafe De Light</p>
+          <p><strong>Subject:</strong> Price compliance warning for Zinger Burger</p>
+          <p><strong>Message:</strong> Please review prices by EOD. The current pricing for Zinger Burger exceeds the recommended range.</p>
+          <small><i class="fas fa-clock"></i> Sent: 2023-11-15 11:00 AM</small>
+        </div>
+
+        <div class="notification-item">
+          <h4><i class="fas fa-check-circle"></i> Hygiene Inspection Reminder</h4>
+          <p><strong>To:</strong> The Daily Grind</p>
+          <p><strong>Subject:</strong> Upcoming hygiene inspection scheduled</p>
+          <p><strong>Message:</strong> Upcoming hygiene inspection scheduled for 2023-11-20. Please ensure all standards are met.</p>
+          <small><i class="fas fa-clock"></i> Sent: 2023-11-14 09:15 AM</small>
+        </div>
+
+        <div class="notification-item">
+          <h4><i class="fas fa-info-circle"></i> Menu Update Reminder</h4>
+          <p><strong>To:</strong> Savour Foods</p>
+          <p><strong>Subject:</strong> Reminder to update menu with current prices</p>
+          <p><strong>Message:</strong> Please update your menu with current prices to ensure transparency for students and staff.</p>
+          <small><i class="fas fa-clock"></i> Sent: 2023-11-10 03:45 PM</small>
+        </div>
+
+        <div class="notification-item">
+          <h4><i class="fas fa-shield-alt"></i> Compliance Review</h4>
+          <p><strong>To:</strong> Cafe De Light</p>
+          <p><strong>Subject:</strong> Quarterly compliance review</p>
+          <p><strong>Message:</strong> Your quarterly compliance review is due. Please submit all required documentation by next week.</p>
+          <small><i class="fas fa-clock"></i> Sent: 2023-11-08 10:30 AM</small>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2025 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+

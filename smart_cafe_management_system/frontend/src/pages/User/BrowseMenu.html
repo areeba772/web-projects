@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Menu - Smart Cafe</title>
+    <link rel="stylesheet" href="../../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Navbar */
+      header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px 0;
+      }
+
+      header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin: auto;
+      }
+
+      header h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        padding: 6px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #34495e;
+      }
+
+      /* Menu Grid */
+      .menu-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 20px;
+      }
+
+      .menu-item {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.2s;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .menu-item img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+
+      .menu-item h3 {
+        color: #2c3e50;
+        margin: 10px 0 5px;
+      }
+
+      .menu-item p {
+        color: #555;
+        font-size: 14px;
+        padding: 0 10px;
+        min-height: 40px;
+      }
+
+      .price {
+        color: #27ae60;
+        font-weight: bold;
+        margin: 8px 0;
+      }
+
+      .add-btn {
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 15px;
+        transition: background-color 0.3s;
+      }
+
+      .add-btn:hover {
+        background-color: #34495e;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #2c3e50;
+        color: white;
+        font-size: 14px;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <h1>Smart Cafe - Browse Menu</h1>
+        <nav>
+          <a href="UserDashboard.html">Dashboard</a>
+          <a href="MyCart.html">My Cart</a>
+          <a href="HelpSupport.html">Help & Support</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="menu-container">
+      <h2>Our Delicious Menu</h2>
+
+      <div class="menu-grid">
+        <!-- Menu items will be dynamically loaded here -->
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 COMSATS University Islamabad, Vehari Campus. All rights
+      reserved.
+    </footer>
+
+    <script src="../../../public/js/cart.js"></script>
+    <script>
+      // Menu items data
+      const menuItems = [
+        { id: '1', name: 'Cheese Burger', price: 350, image: '../../../public/images/burger.jpg', description: 'Juicy grilled beef patty with cheese, lettuce, and tomato.' },
+        { id: '2', name: 'Margherita Pizza', price: 800, image: '../../../public/images/pizza.jpg', description: 'Classic cheesy pizza with a crispy crust and tomato base.' },
+        { id: '3', name: 'White Sauce Pasta', price: 450, image: '../../../public/images/pasta.jpg', description: 'Creamy and rich pasta tossed in white sauce and herbs.' },
+        { id: '4', name: 'Cappuccino', price: 250, image: '../../../public/images/coffee.jpg', description: 'Rich espresso with steamed milk foam. Perfect start to your day.' },
+        { id: '5', name: 'Club Sandwich', price: 300, image: '../../../public/images/sandwich.jpg', description: 'Layered sandwich with chicken, egg, and veggies.' }
+      ];
+      
+      function addItemToCart(itemId) {
+        const item = menuItems.find(i => i.id === itemId);
+        if (item) {
+          addToCart(item);
+        }
+      }
+      
+      // Update image paths and menu items
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuGrid = document.querySelector('.menu-grid');
+        if (menuGrid) {
+          menuGrid.innerHTML = menuItems.map(item => `
+            <div class="menu-item">
+              <img src="${item.image}" alt="${item.name}" />
+              <h3>${item.name}</h3>
+              <p>${item.description}</p>
+              <div class="price">Rs. ${item.price}</div>
+              <button class="add-btn" onclick="addItemToCart('${item.id}')">
+                Add to Cart
+              </button>
+            </div>
+          `).join('');
+        }
+      });
+    </script>
+  </body>
+</html>

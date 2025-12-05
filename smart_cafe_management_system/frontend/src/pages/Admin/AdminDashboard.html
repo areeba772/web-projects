@@ -1,0 +1,351 @@
+Now let's move on to the **Admin Dashboard**. --- ### Module 2: Admin Dashboard
+This page will allow the Admin to: * View overall cafe statistics. * Manage
+cafes (add, edit, delete). * Manage menus for each cafe. * View and respond to
+orders. * Receive notifications from the Food Authority. * Manage users.
+**File:** `frontend/src/pages/Admin/AdminDashboard.html` ```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Smart Cafe System</title>
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Specific styles for Admin Dashboard */
+      .admin-dashboard-layout {
+        display: grid;
+        grid-template-columns: 1fr 4fr; /* Sidebar and main content */
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .admin-sidebar {
+        background-color: #2c3e50; /* Dark blue/grey matching header */
+        color: #ecf0f1; /* Light grey text */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+      }
+
+      .admin-sidebar h3 {
+        color: #fff;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+
+      .admin-sidebar nav ul {
+        list-style: none;
+      }
+
+      .admin-sidebar nav ul li {
+        margin-bottom: 10px;
+      }
+
+      .admin-sidebar nav ul li a {
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: #ecf0f1;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-size: 1.05rem;
+      }
+
+      .admin-sidebar nav ul li a:hover,
+      .admin-sidebar nav ul li a.active {
+        background-color: #34495e; /* Slightly lighter dark blue */
+        color: #fff;
+      }
+
+      .admin-sidebar nav ul li a i {
+        margin-right: 10px;
+        width: 20px; /* Align icons */
+        text-align: center;
+      }
+
+      .admin-main-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background-color: #eaf3fa; /* Light blue background */
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        border-left: 5px solid #2980b9;
+      }
+
+      .stat-card h4 {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      .stat-card .value {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .recent-orders table th:nth-child(3),
+      .recent-orders table td:nth-child(3) {
+        min-width: 150px; /* Ensure description column is wide enough */
+      }
+      .recent-orders .status-pending {
+        color: #f39c12; /* Orange */
+        font-weight: bold;
+      }
+      .recent-orders .status-completed {
+        color: #2ecc71; /* Green */
+        font-weight: bold;
+      }
+      .recent-orders .status-cancelled {
+        color: #e74c3c; /* Red */
+        font-weight: bold;
+      }
+
+      .admin-notification {
+        background-color: #fef7e8; /* Light yellow background */
+        border: 1px solid #f9e3ae;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+      }
+      .admin-notification i {
+        color: #f39c12; /* Orange icon */
+        margin-right: 15px;
+        font-size: 1.5rem;
+      }
+      .admin-notification p {
+        margin: 0;
+        color: #666;
+      }
+      .admin-notification strong {
+        color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>COMSATS Smart Cafe System - Admin Portal</h1>
+        <nav>
+          <a href="../../index.html">Home</a>
+          <a href="AdminDashboard.html" class="active">Dashboard</a>
+          <a href="ManageCafes.html">Manage Cafes</a>
+          <a href="../../index.html" class="btn-secondary" onclick="if(confirm('Are you sure you want to logout?')) { return true; } else { return false; }">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container admin-dashboard-layout">
+      <aside class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <nav>
+          <ul>
+            <li>
+              <a href="AdminDashboard.html" class="active"
+                ><i class="fas fa-chart-line"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="ManageCafes.html"><i class="fas fa-store"></i> Manage Cafes</a>
+            </li>
+            <li>
+              <a href="#" onclick="alert('Manage Menus - Coming Soon!'); return false;"><i class="fas fa-utensils"></i> Manage Menus</a>
+            </li>
+            <li>
+              <a href="#" onclick="alert('Manage Orders - Coming Soon!'); return false;"><i class="fas fa-list-alt"></i> Manage Orders</a>
+            </li>
+            <li>
+              <a href="#" onclick="alert('Manage Users - Coming Soon!'); return false;"><i class="fas fa-users"></i> Manage Users</a>
+            </li>
+            <li>
+              <a href="#" onclick="alert('Notifications - Coming Soon!'); return false;"
+                ><i class="fas fa-bell"></i> Notifications
+                <span class="badge">3</span></a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="alert('System Settings - Coming Soon!'); return false;"><i class="fas fa-cog"></i> System Settings</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="admin-main-content">
+        <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard Overview</h2>
+        <p>Welcome, Admin! Here's a quick look at your system's performance.</p>
+
+        <div class="card admin-notification">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+            <p>
+              <strong>URGENT:</strong> Food Authority has sent a new
+              notification regarding Cafe De Light's pricing.
+              <a href="#">View Details</a>
+            </p>
+            <small>Received: 2023-11-15 10:30 AM</small>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h4>Total Cafes</h4>
+            <div class="value">4</div>
+          </div>
+          <div class="stat-card">
+            <h4>Total Users</h4>
+            <div class="value">250+</div>
+          </div>
+          <div class="stat-card">
+            <h4>Today's Orders</h4>
+            <div class="value">12</div>
+          </div>
+          <div class="stat-card">
+            <h4>Revenue (Today)</h4>
+            <div class="value">Rs. 8,500</div>
+          </div>
+        </div>
+
+        <div class="card recent-orders">
+          <h2><i class="fas fa-history"></i> Recent Orders</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#00101</td>
+                <td>Areeba R.</td>
+                <td>Club Sandwich (1), Cold Drink (1)</td>
+                <td>Rs. 360</td>
+                <td class="status-pending">Pending</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="btn-secondary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    Process
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#00100</td>
+                <td>Fazeela R.</td>
+                <td>Zinger Burger (1), Large Fries (1)</td>
+                <td>Rs. 500</td>
+                <td class="status-completed">Completed</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#00099</td>
+                <td>Ali Ahmed</td>
+                <td>Chicken Biryani (1)</td>
+                <td>Rs. 400</td>
+                <td class="status-pending">Pending</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View
+                  </button>
+                  <button
+                    class="btn-secondary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    Process
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#00098</td>
+                <td>Sara Khan</td>
+                <td>Cappuccino (1), Brownie (1)</td>
+                <td>Rs. 450</td>
+                <td class="status-completed">Completed</td>
+                <td>
+                  <button
+                    class="btn-primary"
+                    style="padding: 5px 10px; font-size: 0.85rem"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2><i class="fas fa-chart-bar"></i> Sales Overview (Monthly)</h2>
+          <p>
+            This section would typically include a chart generated by a JS
+            library like Chart.js.
+          </p>
+          <div
+            style="
+              height: 300px;
+              background-color: #f0f0f0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #888;
+            "
+          >
+            [Placeholder for Sales Chart]
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2023 COMSATS University Islamabad, Vehari Campus. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
